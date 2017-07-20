@@ -29,15 +29,18 @@ protected:
 public:
 	LinkedList(int initialCapacity = 20);	//construction
 	LinkedList(const LinkedList<T>&);	//copy to struct
-	~LinkedList();	//delete
+	~LinkedList();	//delete the whole linked list
 
 	bool empty() const {return listSize==0;}
 	int size() const {return listSize;}
-	T& get(int theIndex) const;
-	int indexOf(const T& theElem) const;
-	void erase(int theIndex);
-	void insert(int theIndex , T& theElem);
-	void show(ostream& out) const;
+	T& get(int theIndex) const;	//get the element of theIndex
+	inline ChainNode<T> *findPrior(int theIndex);
+	int indexOf(const T& theElem) const;	//return the index of theElem
+	void erase(int theIndex);	//erase the theIndexth node
+	void insert(int theIndex , const T& theElem);	//	insert theElem to make the node be the
+											//									theIndexth node
+	void pushBack(const T &theElem);
+	void show(std::ostream& out) const;
 
 };
 
@@ -46,9 +49,9 @@ LinkedList<T>::LinkedList(int initialCapacity)
 {
 	if(initialCapacity < 1)
     {
-    	ostringstream s;
+    	std::ostringstream s;
     	s << "initialCapacity = " << initialCapacity << "Must be > 0";
-    	throw illegalParameterValue(s.str());
+    	std::cerr << s.str();
     }
     this->firstNode = NULL;
     this->listSize = 0;
@@ -94,9 +97,22 @@ T& LinkedList<T>::get(int theIndex) const
 {
 	ChainNode<T> *currentNode = this->firstNode;
 	for(int i=0 ; i<theIndex ; i++)
+	{
 		currentNode = currentNode->next;
+	}
 
 	return currentNode->elem;
+}
+
+template<class T>
+ChainNode<T>* LinkedList<T>::findPrior(int theIndex)
+{
+	ChainNode<T> *priorNode = this->firstNode;
+	for(int i=0 ; i<theIndex-1 ; i++)	//find the prior node of the theIndexth node
+	{
+		priorNode = priorNode->next;
+	}
+	return priorNode;
 }
 
 template<class T>
@@ -120,20 +136,16 @@ template<class T>
 void LinkedList<T>::erase(int theIndex)
 {
 	checkIndex(theIndex);
-
-	ChainNode<T> *priorNode = this->firstNode;
-	ChainNode<T> *targetNode;
+	ChainNode<T> *targetNode = this->firstNode;
 
 	if(theIndex == 0)
 	{
-		targetNode = this->firstNode;
+		
 		this->firstNode = this->firstNode->next;
 	}
 	else
 	{
-		for(int i=0 ; i<theIndex-1 ; i++)
-			priorNode = priorNode->next;
-
+		ChainNode<T> *priorNode = findPrior(theIndex);
 		targetNode = priorNode->next;
 		priorNode->next = priorNode->next->next;
 	}
@@ -143,30 +155,42 @@ void LinkedList<T>::erase(int theIndex)
 }
 
 template<class T>
-void LinkedList<T>::insert(int theIndex , T& theElem)
+void LinkedList<T>::insert(int theIndex , const T& theElem)
 {
 	checkIndex(theIndex);
 
 	if(theIndex == 0)
-		this->firstNode->elem = theElem;
-
-	ChainNode<T> *priorNode = this->firstNode;
-	for(int i=0 ; i<theIndex-1 ; i++)	//find the prior node of the node we try to insert
-		priorNode = priorNode->next;
-
-	ChainNode<T> *targetNode = new ChainNode<T>(theElem , priorNode->next);
-	priorNode->next = targetNode;
-
-	listSize++;
+	{
+ 		this->firstNode = new ChainNode<T>(theElem , firstNode);
+	}
+	else
+	{
+		ChainNode<T> *priorNode = findPrior(theIndex);
+		ChainNode<T> *targetNode = new ChainNode<T>(theElem , priorNode->next);
+		priorNode->next = targetNode;
+	}
+	
+	this->listSize++;
 }
 
 template<class T>
-void LinkedList<T>::show(ostream &out) const
+void LinkedList<T>::pushBack(const T &theElem)
+{
+	ChainNode<T> *currentNode = this->firstNode;
+	while(currentNode->next != NULL)
+	{
+		currentNode = currentNode->next;
+	}
+	currentNode->next = new ChainNode<T>(theElem , NULL);
+}
+
+template<class T>
+void LinkedList<T>::show(std::ostream &out) const
 {
 	ChainNode<T> *currentNode = this->firstNode;
 	while(currentNode != NULL)
 	{
-		out << currentNode << " ";
+		out << currentNode->elem << " ";
 		currentNode = currentNode->next;
 	}
 }
@@ -176,12 +200,18 @@ void LinkedList<T>::checkIndex(int theIndex) const
 {
 	if(theIndex<0 || theIndex>listSize)
 	{
-		ostringstream os;
+		std::ostringstream os;
 		os << "index = " << theIndex << " size = " << listSize;
-		throw illegalIndex(os.str());
+		std::cerr << os.str();
 	}
 }
 
+template<class T>
+ostream& operator<<(std::ostream& out , const LinkedList<T> &x)
+{
+	x.show(out);
+	return out;
+}
 
 
 #endif
