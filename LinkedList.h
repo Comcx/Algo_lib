@@ -35,11 +35,13 @@ public:
 	int size() const {return listSize;}
 	T& get(int theIndex) const;	//get the element of theIndex
 	inline ChainNode<T> *findPrior(int theIndex);
+	inline ChainNode<T> *findLast();
 	int indexOf(const T& theElem) const;	//return the index of theElem
 	void erase(int theIndex);	//erase the theIndexth node
 	void insert(int theIndex , const T& theElem);	//	insert theElem to make the node be the
 											//									theIndexth node
 	void pushBack(const T &theElem);
+	void popBack();
 	void show(std::ostream& out) const;
 
 };
@@ -116,6 +118,17 @@ ChainNode<T>* LinkedList<T>::findPrior(int theIndex)
 }
 
 template<class T>
+ChainNode<T> *LinkedList<T>::findLast()
+{
+	ChainNode<T> *currentNode = this->firstNode;
+	while(currentNode->next != NULL)
+	{
+		currentNode = currentNode->next;
+	}
+	return currentNode;
+}
+
+template<class T>
 int LinkedList<T>::indexOf(const T& theElem) const
 {
 	ChainNode<T> *currentNode = this->firstNode;
@@ -176,12 +189,13 @@ void LinkedList<T>::insert(int theIndex , const T& theElem)
 template<class T>
 void LinkedList<T>::pushBack(const T &theElem)
 {
-	ChainNode<T> *currentNode = this->firstNode;
-	while(currentNode->next != NULL)
-	{
-		currentNode = currentNode->next;
-	}
-	currentNode->next = new ChainNode<T>(theElem , NULL);
+	insert(listSize , theElem);
+}
+
+template<class T>
+void LinkedList<T>::popBack()
+{
+	erase(listSize-1);
 }
 
 template<class T>
@@ -212,6 +226,5 @@ ostream& operator<<(std::ostream& out , const LinkedList<T> &x)
 	x.show(out);
 	return out;
 }
-
 
 #endif
