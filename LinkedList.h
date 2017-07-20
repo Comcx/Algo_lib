@@ -221,7 +221,7 @@ void LinkedList<T>::checkIndex(int theIndex) const
 }
 
 template<class T>
-ostream& operator<<(std::ostream& out , const LinkedList<T> &x)
+std::ostream& operator<<(std::ostream& out , const LinkedList<T> &x)
 {
 	x.show(out);
 	return out;
