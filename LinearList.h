@@ -15,9 +15,9 @@ public:
 	virtual int indexOf(const T& theElem) const = 0;
 	virtual void erase(int theIndex) = 0;
 	virtual void insert(int theIndex , const T& theElem) = 0;
-	virtual void show(ostream& out) const = 0;
+	virtual void pushBack(const T &theElem) = 0;
+	virtual void show(std::ostream& out) const = 0;
 
 };
-
 
 #endif
