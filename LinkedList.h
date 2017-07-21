@@ -47,6 +47,9 @@ public:
 };
 
 template<class T>
+class LinkedStack : public LinkedList<T> {};
+
+template<class T>
 LinkedList<T>::LinkedList(int initialCapacity)
 {
 	if(initialCapacity < 1)
