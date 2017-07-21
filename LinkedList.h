@@ -41,7 +41,7 @@ public:
 	void insert(int theIndex , const T& theElem);	//	insert theElem to make the node be the
 											//									theIndexth node
 	void pushBack(const T &theElem);
-	void popBack();
+	T popBack();
 	void show(std::ostream& out) const;
 
 };
@@ -198,7 +198,9 @@ void LinkedList<T>::pushBack(const T &theElem)
 template<class T>
 void LinkedList<T>::popBack()
 {
+	T target = get(listSize-1);
 	erase(listSize-1);
+	return target;
 }
 
 template<class T>
