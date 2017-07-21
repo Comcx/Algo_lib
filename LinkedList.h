@@ -53,13 +53,13 @@ template<class T>
 LinkedList<T>::LinkedList(int initialCapacity)
 {
 	if(initialCapacity < 1)
-    {
-    	std::ostringstream s;
-    	s << "initialCapacity = " << initialCapacity << "Must be > 0";
-    	std::cerr << s.str();
-    }
-    this->firstNode = NULL;
-    this->listSize = 0;
+	{
+    		std::ostringstream s;
+    		s << "initialCapacity = " << initialCapacity << "Must be > 0";
+    		std::cerr << s.str();
+   	}
+    	this->firstNode = NULL;
+    	this->listSize = 0;
 }
 
 template<class T>
@@ -156,7 +156,6 @@ void LinkedList<T>::erase(int theIndex)
 
 	if(theIndex == 0)
 	{
-		
 		this->firstNode = this->firstNode->next;
 	}
 	else
@@ -196,7 +195,7 @@ void LinkedList<T>::pushBack(const T &theElem)
 }
 
 template<class T>
-void LinkedList<T>::popBack()
+T LinkedList<T>::popBack()
 {
 	T target = get(listSize-1);
 	erase(listSize-1);
