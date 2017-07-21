@@ -50,15 +50,15 @@ ArrayList<T>::ArrayList(int capacity)
 template<class T>
 ArrayList<T>::ArrayList(const ArrayList<T> &theList)
 {
-	this->capacity = theList->capacity;
-	this->listSize = theList->listSize;
+	this->capacity = theList.capacity;
+	this->listSize = theList.listSize;
 	this->elem = new T[this->capacity];
 
 	for(int i=0 ; i<this->capacity ; i++)
 	{
-		this->elem[i] = theList->elem[i];
+		this->elem[i] = theList.elem[i];
 	}
-	this->top = theList->top;
+	this->top = theList.top;
 }
 
 template<class T>
