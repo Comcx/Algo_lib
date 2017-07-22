@@ -189,9 +189,9 @@ int part(T a[] , int lo , int hi , bool(*less)(T,T))
 	
 	while( i <= j )
 	{
-		while( less(a[i],key) && i<=hi )	i++;
-		while( less(key,a[j]) && j>=lo )	j--;
-		if( i>j || a[i]==a[j] )	break;
+		while( (less(a[i],key) || key==a[i]) && i<=hi )	i++;
+		while( (less(key,a[j]) || key==a[j]) && j>=lo )	j--;
+		if( i>j )	break;
 		exch(a,i,j);
 	}
 	exch(a,lo,j);
