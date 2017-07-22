@@ -157,5 +157,19 @@ void merge(T a[] , int lo , int mid , int hi)
 }
 
 
+template<class T>
+void mergeSortBU(T a[] , int lo , int hi , bool(*less)(T,T))
+{
+	int len = hi - lo + 1;
+	for(int h=1 ; h<len ; h *= 2)
+	{
+		for(int i=lo ; i<len-h ; i += h+h)
+		{
+			merge( a,i,i+h-1,std::min(i+h+h-1,len-1) );
+		}
+	}
+}
+
+
 
 #endif
