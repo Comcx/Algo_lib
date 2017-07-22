@@ -83,7 +83,19 @@ void insertSort(T a[] , int len , bool(*less)(T,T))
 {
     for (int i=1; i<len; i++)
     { 
-        for(int j = i ; j>=0 && less(a[j],a[j-1]) ; j--)
+        for(int j = i ; j>0 && less(a[j],a[j-1]) ; j--)
+        {
+            exch(a,j,j-1);
+        }
+    }
+}
+
+template<class T>//insertion sort
+void insertSort(T a[] , int lo , int hi , bool(*less)(T,T))
+{
+    for (int i=lo; i<=hi; i++)
+    { 
+        for(int j = i ; j>lo && less(a[j],a[j-1]) ; j--)
         {
             exch(a,j,j-1);
         }
@@ -111,7 +123,13 @@ void shellSort(T a[] , int len , bool(*less)(T,T))
 template<class T>
 void mergeSort(T a[] , int lo , int hi , bool(*less)(T,T))
 {
-	if(hi <= lo)	return;
+	const int CUTOFF = 5;
+	//if(hi <= lo)	return;
+	if(hi-lo <= 5)	//use insertion sort to improve merge sort
+	{
+		insertSort(a,lo,hi,less);
+		return;
+	}
 
 	int mid = (hi + lo)/2;
 	if( !isSorted(a,lo,mid,less) )		mergeSort(a , lo , mid , less);
