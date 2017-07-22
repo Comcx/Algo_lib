@@ -134,7 +134,7 @@ void mergeSort(T a[] , int lo , int hi , bool(*less)(T,T))
 	int mid = (hi + lo)/2;
 	if( !isSorted(a,lo,mid,less) )		mergeSort(a , lo , mid , less);
 	if( !isSorted(a,mid+1,hi,less) )	mergeSort(a , mid+1 , hi , less);
-	if( !isSorted(a,lo,hi,less) )		merge(a , lo , mid , hi);
+	if( !less(a[mid] , a[mid+1]) )		merge(a , lo , mid , hi);
 }
 
 template<class T>
