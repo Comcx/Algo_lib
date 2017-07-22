@@ -125,7 +125,7 @@ void mergeSort(T a[] , int lo , int hi , bool(*less)(T,T))
 {
 	const int CUTOFF = 5;
 	//if(hi <= lo)	return;
-	if(hi-lo <= 5)	//use insertion sort to improve merge sort
+	if(hi-lo <= CUTOFF)	//use insertion sort to improve merge sort
 	{
 		insertSort(a,lo,hi,less);
 		return;
