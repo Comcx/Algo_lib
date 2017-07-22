@@ -171,5 +171,31 @@ void mergeSortBU(T a[] , int lo , int hi , bool(*less)(T,T))
 }
 
 
+template<class T>
+void quickSort(T a[] , int lo , int hi , bool(*less)(T,T))
+{
+	if(hi <= lo)	return;
+	
+	int j = part(a,lo,hi,less);
+	quickSort(a,lo,j-1,less);
+	quickSort(a,j+1,hi,less);
+}
+
+template<class T>
+int part(T a[] , int lo , int hi , bool(*less)(T,T))
+{
+	T key = a[lo];
+	int i = lo + 1 , j = hi;
+	
+	while( i <= j )
+	{
+		while( less(a[i],key) && i<=hi )	i++;
+		while( less(key,a[j]) && j>=lo )	j--;
+		if( i>j || a[i]==a[j] )	break;
+		exch(a,i,j);
+	}
+	exch(a,lo,j);
+	return j;
+}
 
 #endif
