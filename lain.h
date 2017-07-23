@@ -551,6 +551,7 @@ public:
 	void insert(const T theElem);
 	void swim(int k);
 	void sink(int k);
+	void show(std::ostream &out) const;
 
 };
 
@@ -613,6 +614,31 @@ void BinaryHeap<T>::sink(int k)
 		exch(k,j);
 		k = j;
 	}
+}
+
+template<class T>
+void BinaryHeap<T>::show(std::ostream &out) const
+{
+	if(top == 0)
+	{
+		std::cerr << "The container is empty!" << std::endl;
+		return;
+	}
+	else
+	{
+		for(int i=1 ; i<listSize ; i++)
+		{
+			out << elem[i] << " ";
+		}
+	}
+}
+
+
+template<class T>
+std::ostream& operator<<(std::ostream &out , const BinaryHeap<T> &x)
+{
+	x.show(out);
+	return out;
 }
 
 
