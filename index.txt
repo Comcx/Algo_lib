@@ -4,8 +4,11 @@ Main
 			Comparable
 			LinearList
 			LinkedList
+			LinkedStack
 			ArrayStack
 			CircleQueue
+			BinaryHeap
+			PriorityQueue
 			Fraction.h
 			Fraction.cpp
 
@@ -14,7 +17,9 @@ SortAlgorthms
 		less()
 		exch()
 		selectSort
+		bubbleSort
 		insertSort
 		shellSort
 		mergeSort
 		quickSort
+		heapSort
