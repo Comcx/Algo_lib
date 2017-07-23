@@ -332,7 +332,12 @@ public:
 };
 
 template<class T>
-class ArrayStack : public ArrayList<T> {};
+class ArrayStack : public ArrayList<T> {
+public:
+	ArrayStack(int capacity = 20) : ArrayList<T>::ArrayList(capacity) {}
+	ArrayStack(const ArrayStack<T> &theStack) : ArrayList<T>::ArrayList(theStack) {}
+
+};	//ArrayStack
 
 template<class T>
 ArrayList<T>::ArrayList(int capacity)
@@ -531,5 +536,84 @@ void ArrayList<T>::sort(void (*_sort)(T a[] , int lo , int hi , bool(*less)(T,T)
 	if(!isSorted(lo,hi,less))
 		_sort(elem , lo , hi , less);
 }
+
+
+
+
+template<class T>
+class BinaryHeap : public ArrayList<T>{
+public:
+	BinaryHeap(int capacity = 20);
+	BinaryHeap(const BinaryHeap<T> &theHeap);
+	~BinaryHeap();
+
+	T delMax();
+	void insert(const T theElem);
+	void swim(int k);
+	void sink(int k);
+
+};
+
+
+template<class T>
+BinaryHeap<T>::BinaryHeap(int capacity)
+	:ArrayList(capacity)
+{
+	pushBack(-1);		//start from index 1
+}
+
+template<class T>
+BinaryHeap<T>::BinaryHeap(const BinaryHeap<T> &theHeap)
+	:ArrayList<T>::ArrayList(theHeap)
+{
+
+}
+
+template<class T>
+BinaryHeap<T>::~BinaryHeap()
+{
+	ArrayList<T>::~ArrayList();
+}
+
+template<class T>
+T BinaryHeap<T>::delMax()
+{
+	T max = this->elem[1];
+	exch(1 , top);
+	popBack();
+	sink(1);
+	return max;
+}
+
+template<class T>
+void BinaryHeap<T>::insert(const T theElem)
+{
+	pushBack(theElem);
+	swim(top);
+}
+
+template<class T>
+void BinaryHeap<T>::swim(int k)
+{
+	while( less(elem[k/2],elem[k]) && k > 1 )
+	{
+		exch(k/2,k);
+		k = k / 2;
+	}
+}
+
+template<class T>
+void BinaryHeap<T>::sink(int k)
+{
+	while(2*k <= top)
+	{
+		int j = 2 * k;
+		if( j<top && less(elem[j],elem[j+1]) )	j++;
+		if( !less(elem[k],elem[j]) )	break;
+		exch(k,j);
+		k = j;
+	}
+}
+
 
 #endif
