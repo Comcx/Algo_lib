@@ -17,10 +17,10 @@ SortAlgorthms
 		isSorted()
 		less()
 		exch()
-		selectSort
-		bubbleSort
-		insertSort
-		shellSort
-		mergeSort
-		quickSort
-		heapSort
+		selectSort()
+		bubbleSort()
+		insertSort()
+		shellSort()
+		mergeSort()
+		quickSort()
+		heapSort()
