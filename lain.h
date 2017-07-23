@@ -441,6 +441,11 @@ void ArrayList<T>::pushBack(const T& theElem)
 template<class T>
 T ArrayList<T>::popBack()
 {
+	if(empty())
+	{
+		std::cerr << "The container is empty!" << std::endl;
+		exit(-1);
+	}
 	T target = this->elem[top];
 	erase(top);
 	return target;
