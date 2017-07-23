@@ -82,7 +82,7 @@ template<class T>//insertion sort
 void insertSort(T a[] , int len , bool(*less)(T,T))
 {
     for (int i=1; i<len; i++)
-    { 
+    {
         for(int j = i ; j>0 && less(a[j],a[j-1]) ; j--)
         {
             exch(a,j,j-1);
@@ -174,7 +174,13 @@ void mergeSortBU(T a[] , int lo , int hi , bool(*less)(T,T))
 template<class T>
 void quickSort(T a[] , int lo , int hi , bool(*less)(T,T))
 {
-	if(hi <= lo)	return;
+	const int CUTOFF = 5;
+	//if(hi <= lo)	return;
+	if(hi-lo <= CUTOFF)	//use insertion sort to improve quick sort
+	{
+		insertSort(a,lo,hi,less);
+		return;
+	}
 	
 	int j = part(a,lo,hi,less);
 	quickSort(a,lo,j-1,less);
@@ -197,5 +203,38 @@ int part(T a[] , int lo , int hi , bool(*less)(T,T))
 	exch(a,lo,j);
 	return j;
 }
+
+
+template<class T>
+void HeapSort(T a[] , int lo , int hi , bool(*less)(T,T))
+{
+	int len = hi - lo + 1;
+	for(int k=len/2 ; k>=1 ; k--)	//k represents the relative position(index) of the array
+	{
+		sink(a,k,lo,hi);
+	}
+
+	while(hi > lo)
+	{
+		exch(a,lo,hi--);
+		sink(a,1,lo,hi);
+	}
+}
+
+template<class T>
+void sink(T a[] , int k , int lo , int hi)
+{
+	int len = hi - lo + 1;
+	while(2*k <= len)	//k and j represents the relative position(index) of the array
+	{
+		int j = 2 * k;
+		if( j<len && less(a[j+lo-1],a[j+lo]) )	j++;
+		if( !less(a[k+lo-1],a[j+lo-1]) )	break;
+		exch(a,k+lo-1,j+lo-1);
+		k = j;
+	}
+}
+
+
 
 #endif
