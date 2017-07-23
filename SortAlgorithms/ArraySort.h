@@ -206,7 +206,7 @@ int part(T a[] , int lo , int hi , bool(*less)(T,T))
 
 
 template<class T>
-void HeapSort(T a[] , int lo , int hi , bool(*less)(T,T))
+void heapSort(T a[] , int lo , int hi , bool(*less)(T,T))
 {
 	int len = hi - lo + 1;
 	for(int k=len/2 ; k>=1 ; k--)	//k represents the relative position(index) of the array
