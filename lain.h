@@ -642,4 +642,17 @@ std::ostream& operator<<(std::ostream &out , const BinaryHeap<T> &x)
 }
 
 
+template<class T>
+class PriorityQueue : public BinaryHeap<T>{
+protected:
+
+public:
+	PriorityQueue(int capacity = 20) : BinaryHeap<T>::BinaryHeap(capacity) {}
+	PriorityQueue(const PriorityQueue<T> &theQueue) : BinaryHeap<T>::BinaryHeap(theQueue) {}
+
+
+
+};
+
+
 #endif
