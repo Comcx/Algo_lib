@@ -8,9 +8,9 @@
 * developed by Comcx
 * created time : 
 * Guide:
-		µ÷ÓÃ¸ÃÕ»µÄ¸ñÊ½£ºStack<dataType> [name]( int maxSize=20 )
-*		»ù±¾²Ù×÷
-*
+		è°ƒç”¨è¯¥æ ˆçš„æ ¼å¼ï¼šStack<dataType> [name]( int maxSize=20 )
+*		åŸºæœ¬æ“ä½œ
+*		caution: this structure has been updated , see lain.h in detail!
 */
 
 
@@ -22,22 +22,22 @@
 template <class T> 
 class Stack{
 private:
-	int maxSize;									   //Õ»×î´óÈİÁ¿
-	T *content;								  //Õ»µ×Ö¸Õë
-	int top;										 //Õ»¶¥ĞòºÅ
+	int maxSize;									   //æ ˆæœ€å¤§å®¹é‡
+	T *content;								  //æ ˆåº•æŒ‡é’ˆ
+	int top;										 //æ ˆé¡¶åºå·
 	static const int CAPACITY = 20;                                                 
 public:
 	//Stack();
-	Stack( int maxSize=CAPACITY );                                       //³õÊ¼»¯£¬Ä¬ÈÏÕ»´óĞ¡Îª20
-	~Stack(){}                                                   //Îö¹¹º¯Êı
+	Stack( int maxSize=CAPACITY );                                       //åˆå§‹åŒ–ï¼Œé»˜è®¤æ ˆå¤§å°ä¸º20
+	~Stack(){}                                                   //ææ„å‡½æ•°
 																 //
 	int getTop(){return top;}									//		
-	int Size(){return (this->maxSize);}					   //»ñÈ¡´óĞ¡	
-	bool isEmpty(){return ( this->top == -1 );}              //ÊÇ·ñÎª¿Õ
-	bool isFull(){return (this->top == Size() );}           //ÊÇ·ñÌîÂú
-	void Push( T Elem );                             //Ñ¹Õ»
-	T Pop();                                        //³öÕ»
-	void Show();                                          //ÏÔÊ¾
+	int Size(){return (this->maxSize);}					   //è·å–å¤§å°	
+	bool isEmpty(){return ( this->top == -1 );}              //æ˜¯å¦ä¸ºç©º
+	bool isFull(){return (this->top == Size() );}           //æ˜¯å¦å¡«æ»¡
+	void Push( T Elem );                             //å‹æ ˆ
+	T Pop();                                        //å‡ºæ ˆ
+	void Show();                                          //æ˜¾ç¤º
 
 };
 
