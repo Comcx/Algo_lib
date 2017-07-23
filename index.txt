@@ -14,6 +14,7 @@ Main
 
 SortAlgorthms
 	ArraySort.h
+		isSorted()
 		less()
 		exch()
 		selectSort
