@@ -442,10 +442,7 @@ template<class T>
 T ArrayList<T>::popBack()
 {
 	if(empty())
-	{
 		std::cerr << "The container is empty!" << std::endl;
-		exit(-1);
-	}
 	T target = this->elem[top];
 	erase(top);
 	return target;
@@ -563,9 +560,9 @@ public:
 
 template<class T>
 BinaryHeap<T>::BinaryHeap(int capacity)
-	:ArrayList(capacity)
+	:ArrayList<T>(capacity)
 {
-	pushBack(-1);		//start from index 1
+	this->pushBack(-1);		//start from index 1
 }
 
 template<class T>
@@ -585,8 +582,8 @@ template<class T>
 T BinaryHeap<T>::delMax()
 {
 	T max = this->elem[1];
-	exch(1 , top);
-	popBack();
+	this->exch(1 , this->top);
+	this->popBack();
 	sink(1);
 	return max;
 }
@@ -594,16 +591,16 @@ T BinaryHeap<T>::delMax()
 template<class T>
 void BinaryHeap<T>::insert(const T theElem)
 {
-	pushBack(theElem);
-	swim(top);
+	this->pushBack(theElem);
+	swim(this->top);
 }
 
 template<class T>
 void BinaryHeap<T>::swim(int k)
 {
-	while( less(elem[k/2],elem[k]) && k > 1 )
+	while( less(this->elem[k/2],this->elem[k]) && k > 1 )
 	{
-		exch(k/2,k);
+		this->exch(k/2,k);
 		k = k / 2;
 	}
 }
@@ -611,12 +608,12 @@ void BinaryHeap<T>::swim(int k)
 template<class T>
 void BinaryHeap<T>::sink(int k)
 {
-	while(2*k <= top)
+	while(2*k <= this->top)
 	{
 		int j = 2 * k;
-		if( j<top && less(elem[j],elem[j+1]) )	j++;
-		if( !less(elem[k],elem[j]) )	break;
-		exch(k,j);
+		if( j<this->top && less(this->elem[j],this->elem[j+1]) )	j++;
+		if( !less(this->elem[k],this->elem[j]) )	break;
+		this->exch(k,j);
 		k = j;
 	}
 }
@@ -624,16 +621,16 @@ void BinaryHeap<T>::sink(int k)
 template<class T>
 void BinaryHeap<T>::show(std::ostream &out) const
 {
-	if(top == 0)
+	if(this->top == 0)
 	{
 		std::cerr << "The container is empty!" << std::endl;
 		return;
 	}
 	else
 	{
-		for(int i=1 ; i<listSize ; i++)
+		for(int i=1 ; i<this->listSize ; i++)
 		{
-			out << elem[i] << " ";
+			out << this->elem[i] << " ";
 		}
 	}
 }
@@ -654,7 +651,6 @@ protected:
 public:
 	PriorityQueue(int capacity = 20) : BinaryHeap<T>::BinaryHeap(capacity) {}
 	PriorityQueue(const PriorityQueue<T> &theQueue) : BinaryHeap<T>::BinaryHeap(theQueue) {}
-
 
 
 };
