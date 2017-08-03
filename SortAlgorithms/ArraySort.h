@@ -172,6 +172,9 @@ void mergeSortBU(T a[] , int lo , int hi , bool(*less)(T,T))
 
 
 template<class T>
+int part(T a[] , int lo , int hi , bool(*less)(T,T));
+
+template<class T>
 void quickSort(T a[] , int lo , int hi , bool(*less)(T,T))
 {
 	const int CUTOFF = 5;
