@@ -121,6 +121,26 @@ void shellSort(T a[] , int len , bool(*less)(T,T))
 
 
 template<class T>
+void merge(T a[] , int lo , int mid , int hi)
+{
+    int i = lo , j = mid+1;
+    T *aux = new T[hi-lo+1];
+    
+    for(int k=lo ; k<=hi ; k++)
+        aux[k-lo] = a[k];
+
+    for(int k=lo ; k<=hi ; k++)
+    {
+        if(i > mid)                         a[k] = aux[(j++)-lo];
+        else if(j > hi)                     a[k] = aux[(i++)-lo];
+        else if(less(aux[i-lo] , aux[j-lo]))    a[k] = aux[(i++)-lo];
+        else                                a[k] = aux[(j++)-lo];
+    }
+    delete [] aux;
+}
+
+
+template<class T>
 void mergeSort(T a[] , int lo , int hi , bool(*less)(T,T))
 {
 	const int CUTOFF = 5;
@@ -135,25 +155,6 @@ void mergeSort(T a[] , int lo , int hi , bool(*less)(T,T))
 	if( !isSorted(a,lo,mid,less) )		mergeSort(a , lo , mid , less);
 	if( !isSorted(a,mid+1,hi,less) )	mergeSort(a , mid+1 , hi , less);
 	if( !less(a[mid] , a[mid+1]) )		merge(a , lo , mid , hi);
-}
-
-template<class T>
-void merge(T a[] , int lo , int mid , int hi)
-{
-	int i = lo , j = mid+1;
-	T *aux = new T[hi-lo+1];
-	
-	for(int k=lo ; k<=hi ; k++)
-		aux[k-lo] = a[k];
-
-	for(int k=lo ; k<=hi ; k++)
-	{
-		if(i > mid)							a[k] = aux[(j++)-lo];
-		else if(j > hi)						a[k] = aux[(i++)-lo];
-		else if(less(aux[i-lo] , aux[j-lo]))	a[k] = aux[(i++)-lo];
-		else								a[k] = aux[(j++)-lo];
-	}
-	delete [] aux;
 }
 
 
@@ -172,7 +173,23 @@ void mergeSortBU(T a[] , int lo , int hi , bool(*less)(T,T))
 
 
 template<class T>
-int part(T a[] , int lo , int hi , bool(*less)(T,T));
+int part(T a[] , int lo , int hi , bool(*less)(T,T))
+{
+    T key = a[lo];
+    int i = lo + 1 , j = hi;
+    
+    while( i <= j )
+    {
+        while( (less(a[i],key) || key==a[i]) && i<hi )  i++;
+        while( (less(key,a[j]) || key==a[j]) && j>lo )  j--;
+        if( i>=j )  break;
+        exch(a,i,j);
+    }
+    exch(a,lo,j);
+    return j;
+}
+
+
 
 template<class T>
 void quickSort(T a[] , int lo , int hi , bool(*less)(T,T))
@@ -190,21 +207,19 @@ void quickSort(T a[] , int lo , int hi , bool(*less)(T,T))
 	quickSort(a,j+1,hi,less);
 }
 
+
 template<class T>
-int part(T a[] , int lo , int hi , bool(*less)(T,T))
+void sink(T a[] , int k , int lo , int hi)
 {
-	T key = a[lo];
-	int i = lo + 1 , j = hi;
-	
-	while( i <= j )
-	{
-		while( (less(a[i],key) || key==a[i]) && i<hi )	i++;
-		while( (less(key,a[j]) || key==a[j]) && j>lo )	j--;
-		if( i>=j )	break;
-		exch(a,i,j);
-	}
-	exch(a,lo,j);
-	return j;
+    int len = hi - lo + 1;
+    while(2*k <= len)   //k and j represents the relative position(index) of the array
+    {
+        int j = 2 * k;
+        if( j<len && less(a[j+lo-1],a[j+lo]) )  j++;
+        if( !less(a[k+lo-1],a[j+lo-1]) )    break;
+        exch(a,k+lo-1,j+lo-1);
+        k = j;
+    }
 }
 
 
@@ -224,20 +239,7 @@ void heapSort(T a[] , int lo , int hi , bool(*less)(T,T))
 	}
 }
 
-template<class T>
-void sink(T a[] , int k , int lo , int hi)
-{
-	int len = hi - lo + 1;
-	while(2*k <= len)	//k and j represents the relative position(index) of the array
-	{
-		int j = 2 * k;
-		if( j<len && less(a[j+lo-1],a[j+lo]) )	j++;
-		if( !less(a[k+lo-1],a[j+lo-1]) )	break;
-		exch(a,k+lo-1,j+lo-1);
-		k = j;
-	}
-}
-
 
 
 #endif
+
